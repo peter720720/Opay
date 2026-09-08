@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// Connects to your local Node.js engine port
-const API_BASE_URL = 'http://localhost:5000/api';
+// Use the deployed API in production and keep localhost available for development.
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://opay-57ti.onrender.com/api';
 
 const apiClient = axios.create({
     baseURL: API_BASE_URL,
