@@ -1,11 +1,15 @@
 import axios from 'axios';
 
 // Use the local API during development and the deployed API in production.
-const API_BASE_URL = import.meta.env.VITE_API_URL || (
+const configuredApiUrl = import.meta.env.VITE_API_URL;
+const normalizedApiUrl = configuredApiUrl?.replace(/\/$/, '');
+const API_BASE_URL = configuredApiUrl
+    ? `${normalizedApiUrl}${normalizedApiUrl.endsWith('/api') ? '' : '/api'}`
+    : (
     import.meta.env.DEV
         ? 'http://localhost:5000/api'
         : 'https://opay-57ti.onrender.com/api'
-);
+    );
 
 const apiClient = axios.create({
     baseURL: API_BASE_URL,
