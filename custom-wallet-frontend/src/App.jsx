@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './pages/Login';
+import AdminLogin from './pages/AdminLogin';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Transfer from './pages/Transfer';
@@ -8,7 +9,7 @@ import AdminPanel from './pages/AdminPanel';
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
     const { user } = useAuth();
-    if (!user) return <Navigate to="/login" replace />;
+    if (!user) return <Navigate to={allowedRoles?.includes('admin') ? '/admin/login' : '/login'} replace />;
     if (allowedRoles && !allowedRoles.includes(user.role)) return <Navigate to="/dashboard" replace />;
     return children;
 };
@@ -20,6 +21,7 @@ function App() {
                 <Routes>
                     {/* Public Auth Routes */}
                     <Route path="/login" element={<Login />} />
+                    <Route path="/admin/login" element={<AdminLogin />} />
                     <Route path="/register" element={<Register />} />
 
                     {/* Secured User & Admin App Routes */}
